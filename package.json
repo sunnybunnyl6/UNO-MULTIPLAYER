@@ -1,0 +1,37 @@
+// Generates a standard 108-card Uno deck
+function createDeck() {
+    const colors = ['red', 'blue', 'green', 'yellow'];
+    const values = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Skip', 'Reverse', 'Draw2'];
+    let deck = [];
+
+    // Add colored cards
+    colors.forEach(color => {
+        values.forEach(value => {
+            if (value === '0') {
+                deck.push({ color, value }); // Only one '0' card per color
+            } else {
+                deck.push({ color, value }); // Two of every other number/action card
+                deck.push({ color, value });
+            }
+        });
+    });
+
+    // Add Wild cards (4 Wild, 4 Wild Draw 4)
+    for (let i = 0; i < 4; i++) {
+        deck.push({ color: 'wild', value: 'Wild' });
+        deck.push({ color: 'wild', value: 'Draw4' });
+    }
+
+    return deck;
+}
+
+// Shuffles deck using Fisher-Yates algorithm
+function shuffleDeck(deck) {
+    for (let i = deck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+    return deck;
+}
+
+module.exports = { createDeck, shuffleDeck };
